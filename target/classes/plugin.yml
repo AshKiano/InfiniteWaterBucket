@@ -1,0 +1,10 @@
+name: InfiniteWaterBucket
+version: '1.2'
+main: com.ashkiano.infinitewaterbucket.InfiniteWaterBucket
+api-version: '1.16'
+author: AshKiano
+description: Plugin providing an infinite water bucket.
+commands:
+  infinitewater:
+    description: Gives the player an infinite water bucket.
+    usage: /<command>
