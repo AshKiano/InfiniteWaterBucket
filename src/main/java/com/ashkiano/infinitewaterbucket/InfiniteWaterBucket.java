@@ -23,7 +23,7 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
         this.getCommand("infinitewater").setExecutor(new BucketCommand());
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Metrics metrics = new Metrics(this, 19473);
-        this.getLogger().info("Thank you for using the InfiniteWaterBucket plugin! If you enjoy using this plugin, please consider making a donation to support the development. You can donate at: https://paypal.me/josefvyskocil");
+        this.getLogger().info("Thank you for using the InfiniteWaterBucket plugin! If you enjoy using this plugin, please consider making a donation to support the development. You can donate at: https://donate.ashkiano.com");
     }
 
     public class BucketCommand implements CommandExecutor {
