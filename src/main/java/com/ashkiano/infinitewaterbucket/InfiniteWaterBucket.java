@@ -27,6 +27,11 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
     public void onEnable() {
         this.getCommand("infinitewater").setExecutor(new BucketCommand());
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
+        this.saveDefaultConfig();
+        if (!getConfig().isSet("permission")) {
+            getConfig().set("permission", "infinitewater.use");
+            saveConfig();
+        }
         Metrics metrics = new Metrics(this, 19473);
         this.getLogger().info("Thank you for using the InfiniteWaterBucket plugin! If you enjoy using this plugin, please consider making a donation to support the development. You can donate at: https://donate.ashkiano.com");
         checkForUpdates();
@@ -37,6 +42,13 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
         public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
+
+                String permission = InfiniteWaterBucket.this.getConfig().getString("permission");
+
+                if (!player.hasPermission(permission)) {
+                    player.sendMessage("You do not have permission to use this command.");
+                    return true;
+                }
 
                 ItemStack bucket = new ItemStack(Material.WATER_BUCKET);
                 ItemMeta meta = bucket.getItemMeta();
