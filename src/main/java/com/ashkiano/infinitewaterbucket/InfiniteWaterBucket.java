@@ -32,6 +32,12 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
             getConfig().set("permission", "infinitewater.use");
             saveConfig();
         }
+        if (!getConfig().isSet("lore")) {
+            List<String> defaultLore = new ArrayList<>();
+            defaultLore.add("Infinite Bucket");
+            getConfig().set("lore", defaultLore);
+            saveConfig();
+        }
         Metrics metrics = new Metrics(this, 19473);
         this.getLogger().info("Thank you for using the InfiniteWaterBucket plugin! If you enjoy using this plugin, please consider making a donation to support the development. You can donate at: https://donate.ashkiano.com");
         checkForUpdates();
@@ -53,8 +59,7 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
                 ItemStack bucket = new ItemStack(Material.WATER_BUCKET);
                 ItemMeta meta = bucket.getItemMeta();
 
-                List<String> lore = new ArrayList<>();
-                lore.add("Infinite Bucket");
+                List<String> lore = InfiniteWaterBucket.this.getConfig().getStringList("lore");
 
                 if (meta != null) {
                     meta.setLore(lore);
@@ -76,7 +81,7 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
 
         if (handItem.hasItemMeta() && handItem.getItemMeta().hasLore()) {
             List<String> lore = handItem.getItemMeta().getLore();
-            if (lore != null && lore.contains("Infinite Bucket")) {
+            if (lore != null && lore.equals(getConfig().getStringList("lore"))) {
 
                 event.getBlockClicked().getRelative(event.getBlockFace()).setType(Material.WATER);
 
@@ -85,8 +90,7 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
                     ItemMeta meta = infiniteBucket.getItemMeta();
 
                     if (meta != null) {
-                        List<String> newLore = new ArrayList<>();
-                        newLore.add("Infinite Bucket");
+                        List<String> newLore = InfiniteWaterBucket.this.getConfig().getStringList("lore");
                         meta.setLore(newLore);
                         infiniteBucket.setItemMeta(meta);
                     }
@@ -102,7 +106,7 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
         ItemStack droppedItem = event.getItemDrop().getItemStack();
         if (droppedItem.getType() == Material.BUCKET && droppedItem.hasItemMeta() && droppedItem.getItemMeta().hasLore()) {
             List<String> lore = droppedItem.getItemMeta().getLore();
-            if (lore != null && lore.contains("Infinite Bucket")) {
+            if (lore != null && lore.equals(getConfig().getStringList("lore"))) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage("You cannot drop the infinite water bucket!");
             }
@@ -112,7 +116,7 @@ public class InfiniteWaterBucket extends JavaPlugin implements Listener {
     private void checkForUpdates() {
         try {
             String pluginName = this.getDescription().getName();
-            URL url = new URL("https://www.ashkiano.com/version_check.php?plugin=" + pluginName);
+            URL url = new URL("https://plugins.ashkiano.com/version_check.php?plugin=" + pluginName);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
